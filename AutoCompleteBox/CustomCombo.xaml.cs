@@ -284,7 +284,7 @@ namespace AutoCompleteBox
                 Keyboard.Focus(SearchBox);
             }), System.Windows.Threading.DispatcherPriority.Input);
         }
-
+        //feature branch pull request
         private void RefreshList()
         {
             if (Items == null) return;

@@ -187,7 +187,7 @@ namespace AutoCompleteBox
         {
             SearchBox.Focus();
         }
-
+        //hello
         public List<Item> GetSelectedItems()
         {
             return SelectedItems.ToList();

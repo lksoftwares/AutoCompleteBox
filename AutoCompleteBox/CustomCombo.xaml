@@ -102,7 +102,7 @@
                 Background="White"
                 Visibility="Collapsed"
                 x:Name="ListBorder">
-
+           
             <ListBox x:Name="List"
                      ItemsSource="{Binding FilteredItems, RelativeSource={RelativeSource AncestorType=UserControl}}"
                      PreviewMouseLeftButtonUp="List_MouseLeftButtonUp"

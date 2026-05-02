@@ -9,7 +9,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-      
+     
         <Border BorderBrush="#DADADA"
                 BorderThickness="1"
                 CornerRadius="8"
@@ -17,83 +17,76 @@
                 Background="White">
 
             <Grid>
-
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
+                    <ColumnDefinition Width="25"/>
                     <ColumnDefinition Width="25"/>
                 </Grid.ColumnDefinitions>
 
               
-                <WrapPanel  Grid.Column="0"
-           VerticalAlignment="Top"
-           Orientation="Horizontal"
-           ItemHeight="Auto">
+                <Grid Grid.Column="0" MaxHeight="80">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
 
-                    
-                    <ItemsControl ItemsSource="{Binding SelectedItems, RelativeSource={RelativeSource AncestorType=UserControl}}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
+                        <ItemsControl ItemsSource="{Binding SelectedItems, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel IsItemsHost="True"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
 
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Background="#E0F3FF"
-                                        Margin="2"
-                                        Padding="5"
-                                        CornerRadius="10"
-                                        BorderBrush="#4FC3F7"
-                                        BorderThickness="1">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#E0F3FF"
+                            Margin="2"
+                            Padding="5"
+                            CornerRadius="10"
+                            BorderBrush="#4FC3F7"
+                            BorderThickness="1">
 
-                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Name}" Margin="0,0,5,0"/>
 
-                                        <TextBlock Text="{Binding Name}" Margin="0,0,5,0"/>
+                                          
+                                            <Button Content="✖"
+                                    Width="18"
+                                    Height="18"
+                                    FontSize="12"
+                                    Padding="0"
+                                    Background="Transparent"
+                                                    Foreground="Black"
+                                    BorderThickness="0"
+                                    CommandParameter="{Binding}"
+                                    Click="RemoveItem_Click"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
 
-                                        <Button Content="✖"
-                                                Width="14"
-                                                Height="14"
-                                                FontSize="10"
-                                                Padding="0"
-                                                Background="Transparent"
-                                                Foreground="Black"
-                                                BorderThickness="0"
-                                                FocusVisualStyle="{x:Null}"
-                                                CommandParameter="{Binding}"
-                                                Click="RemoveItem_Click"/>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
 
-                   
-                    <TextBox x:Name="SearchBox"
-                             Width="80"
-                             BorderThickness="0"
-                             Background="Transparent"
-                             VerticalAlignment="Center"
-                             TextChanged="SearchBox_TextChanged"
-                             PreviewKeyDown="SearchBox_PreviewKeyDown"/>
-                </WrapPanel>
-
-                
+               
                 <Border Grid.Column="1"
-                        Width="20"
-                        Height="20"
-                        Background="Transparent"
                         Cursor="Hand"
                         MouseLeftButtonDown="DropDownToggle_Click">
-
                     <TextBlock Text="▼"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
                 </Border>
 
+                <CheckBox Grid.Column="2"
+          VerticalAlignment="Center"
+          HorizontalAlignment="Center"
+                          
+           IsChecked="{Binding Config.AutoOpen, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+          Checked="CheckBox_Changed"
+          Unchecked="CheckBox_Changed"/>
             </Grid>
         </Border>
 
-
+       
         <Border Grid.Row="1"
                 Margin="0,2,0,0"
                 BorderBrush="#DADADA"
@@ -102,22 +95,38 @@
                 Background="White"
                 Visibility="Collapsed"
                 x:Name="ListBorder">
-           
-            <ListBox x:Name="List"
-                     ItemsSource="{Binding FilteredItems, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                     PreviewMouseLeftButtonUp="List_MouseLeftButtonUp"
-                     PreviewKeyDown="List_PreviewKeyDown"
-                     BorderThickness="0"
-                     Height="120">
 
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}" Padding="6"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+            <StackPanel>
 
-            </ListBox>
+               
+                <TextBox x:Name="SearchBox"
+                          Focusable="True"
+                          IsTabStop="True"
+                         Margin="5"
+                         Height="30"
+                         Padding="5"
+                         BorderBrush="#DADADA"
+                         BorderThickness="1"
+                         TextChanged="SearchBox_TextChanged"
+                         PreviewKeyDown="SearchBox_PreviewKeyDown"/>
 
+               
+                <ListBox x:Name="List"
+                         ItemsSource="{Binding FilteredItems, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                         BorderThickness="0"
+                         Height="150"
+                         PreviewMouseLeftButtonUp="List_MouseLeftButtonUp"
+                         PreviewKeyDown="List_PreviewKeyDown">
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" Padding="6"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                </ListBox>
+
+            </StackPanel>
         </Border>
 
     </Grid>

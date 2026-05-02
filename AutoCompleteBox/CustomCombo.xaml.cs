@@ -18,10 +18,22 @@ namespace AutoCompleteBox
             SelectedItems = new ObservableCollection<Item>();
             FilteredItems = new ObservableCollection<Item>();
 
-        
+            Loaded += CustomCombo_Loaded;
         }
 
-       
+        private void CustomCombo_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (Config?.AutoOpen == true)
+            {
+                ListBorder.Visibility = Visibility.Visible;
+
+                Dispatcher.BeginInvoke(() =>
+                {
+                    SearchBox.Focus();
+                });
+            }
+        }
+
         public ObservableCollection<Item> Items
         {
             get => (ObservableCollection<Item>)GetValue(ItemsProperty);
@@ -47,7 +59,44 @@ namespace AutoCompleteBox
             }
         }
 
-        
+        //    public bool IsAutoOpenEnabled
+        //    {
+        //        get => (bool)GetValue(IsAutoOpenEnabledProperty);
+        //        set => SetValue(IsAutoOpenEnabledProperty, value);
+        //    }
+
+        //    public static readonly DependencyProperty IsAutoOpenEnabledProperty =
+        //DependencyProperty.Register(
+        //    nameof(IsAutoOpenEnabled),
+        //    typeof(bool),
+        //    typeof(CustomCombo),
+        //    new PropertyMetadata(false, OnAutoOpenChanged));
+
+        //    private static void OnAutoOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        //    {
+        //        var control = (CustomCombo)d;
+
+        //        if ((bool)e.NewValue)
+        //            control.ListBorder.Visibility = Visibility.Visible;
+        //        else
+        //            control.ListBorder.Visibility = Visibility.Collapsed;
+        //    }
+
+        public ComboConfig Config
+        {
+            get => (ComboConfig)GetValue(ConfigProperty);
+            set => SetValue(ConfigProperty, value);
+        }
+
+        public static readonly DependencyProperty ConfigProperty =
+            DependencyProperty.Register(
+                nameof(Config),
+                typeof(ComboConfig),
+                typeof(CustomCombo),
+                new PropertyMetadata(null));
+
+      
+
         public ObservableCollection<Item> FilteredItems { get; set; }
 
        
@@ -56,8 +105,11 @@ namespace AutoCompleteBox
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (ListBorder.Visibility != Visibility.Visible)
-                ListBorder.Visibility = Visibility.Visible;
+
+            //if (Config?.AutoOpen == true)
+            //{
+            //    ListBorder.Visibility = Visibility.Visible;
+            //}
 
             RefreshList();
         }
@@ -113,12 +165,82 @@ namespace AutoCompleteBox
 
         }
 
+
+
+        //private void DropDownToggle_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (ListBorder.Visibility == Visibility.Visible)
+        //    {
+        //        ListBorder.Visibility = Visibility.Collapsed;
+        //    }
+        //    else
+        //    {
+        //        ListBorder.Visibility = Visibility.Visible;
+
+        //        Dispatcher.BeginInvoke(new Action(() =>
+        //        {
+        //            SearchBox.Focus();
+        //            Keyboard.Focus(SearchBox);
+        //        }), System.Windows.Threading.DispatcherPriority.Input);
+        //    }
+        //}
+
+        //private void DropDownToggle_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (IsAutoOpenEnabled)
+        //    {
+        //        // always open if enabled
+        //        ListBorder.Visibility = Visibility.Visible;
+        //    }
+        //    else
+        //    {
+        //        // normal toggle behavior
+        //        if (ListBorder.Visibility == Visibility.Visible)
+        //            ListBorder.Visibility = Visibility.Collapsed;
+        //        else
+        //            ListBorder.Visibility = Visibility.Visible;
+        //    }
+
+        //    Dispatcher.BeginInvoke(new Action(() =>
+        //    {
+        //        SearchBox.Focus();
+        //        Keyboard.Focus(SearchBox);
+        //    }), System.Windows.Threading.DispatcherPriority.Input);
+        //}
+
+        private void CheckBox_Changed(object sender, RoutedEventArgs e)
+        {
+            ToggleDropdown();
+        }
         private void DropDownToggle_Click(object sender, RoutedEventArgs e)
         {
-            if (ListBorder.Visibility == Visibility.Visible)
-                ListBorder.Visibility = Visibility.Collapsed;
-            else
-                ListBorder.Visibility = Visibility.Visible;
+            //if (Config?.AutoOpen == true)
+            //{
+            //    ListBorder.Visibility = Visibility.Visible;
+            //    Dispatcher.BeginInvoke(new Action(() =>
+            //    {
+            //        SearchBox.Focus();
+            //        Keyboard.Focus(SearchBox);
+            //    }), System.Windows.Threading.DispatcherPriority.Input);
+            //    return;
+            //}
+
+            //if (ListBorder.Visibility == Visibility.Visible)
+            //{
+            //    ListBorder.Visibility = Visibility.Collapsed;
+            //}
+            //else
+            //{
+            //    ListBorder.Visibility = Visibility.Visible;
+
+            //    Dispatcher.BeginInvoke(new Action(() =>
+            //    {
+            //        SearchBox.Focus();
+            //        Keyboard.Focus(SearchBox);
+            //    }), System.Windows.Threading.DispatcherPriority.Input);
+            //}
+
+            ToggleDropdown();
         }
 
         private void RemoveItem_Click(object sender, RoutedEventArgs e)
@@ -150,12 +272,9 @@ namespace AutoCompleteBox
                 SelectedItems.Add(selected);
             }
            
-           
             List.SelectedItem = null;
             SearchBox.Text = string.Empty;
             SearchBox.Clear();
-
-            ListBorder.Visibility = Visibility.Collapsed;
 
             RefreshList();
 
@@ -182,6 +301,23 @@ namespace AutoCompleteBox
             foreach (var item in result)
                 FilteredItems.Add(item);
         }
+        private void ToggleDropdown()
+        {
+            if (ListBorder.Visibility == Visibility.Visible)
+            {
+                ListBorder.Visibility = Visibility.Collapsed;
+                Keyboard.ClearFocus();
+            }
+            else
+            {
+                ListBorder.Visibility = Visibility.Visible;
+
+                Dispatcher.BeginInvoke(() =>
+                {
+                    SearchBox.Focus();
+                });
+            }
+        }
 
         public void FocusSearchBox()
         {
@@ -198,4 +334,11 @@ namespace AutoCompleteBox
     {
         public string Name { get; set; }
     }
+
+    public class ComboConfig
+    {
+        public bool AutoOpen { get; set; } = false;
+       
+    }
 }
+

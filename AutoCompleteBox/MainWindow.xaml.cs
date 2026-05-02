@@ -46,7 +46,7 @@ namespace AutoCompleteBox
 
             myCombo.Config = new ComboConfig
             {
-                AutoOpen = false
+                AutoOpen = true
             };
         }
         public void MoveFocusToNext(UIElement current)

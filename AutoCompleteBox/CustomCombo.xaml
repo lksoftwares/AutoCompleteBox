@@ -9,7 +9,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-     
+
         <Border BorderBrush="#DADADA"
                 BorderThickness="1"
                 CornerRadius="8"
@@ -23,7 +23,7 @@
                     <ColumnDefinition Width="25"/>
                 </Grid.ColumnDefinitions>
 
-              
+
                 <Grid Grid.Column="0" MaxHeight="80">
                     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   HorizontalScrollBarVisibility="Disabled">
@@ -47,7 +47,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding Name}" Margin="0,0,5,0"/>
 
-                                          
+
                                             <Button Content="✖"
                                     Width="18"
                                     Height="18"
@@ -67,7 +67,7 @@
                     </ScrollViewer>
                 </Grid>
 
-               
+           
                 <Border Grid.Column="1"
                         Cursor="Hand"
                         MouseLeftButtonDown="DropDownToggle_Click">
@@ -79,14 +79,14 @@
                 <CheckBox Grid.Column="2"
           VerticalAlignment="Center"
           HorizontalAlignment="Center"
-                          
+                         
            IsChecked="{Binding Config.AutoOpen, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
           Checked="CheckBox_Changed"
           Unchecked="CheckBox_Changed"/>
             </Grid>
         </Border>
 
-       
+
         <Border Grid.Row="1"
                 Margin="0,2,0,0"
                 BorderBrush="#DADADA"
@@ -98,7 +98,7 @@
 
             <StackPanel>
 
-               
+
                 <TextBox x:Name="SearchBox"
                           Focusable="True"
                           IsTabStop="True"
@@ -110,7 +110,7 @@
                          TextChanged="SearchBox_TextChanged"
                          PreviewKeyDown="SearchBox_PreviewKeyDown"/>
 
-               
+
                 <ListBox x:Name="List"
                          ItemsSource="{Binding FilteredItems, RelativeSource={RelativeSource AncestorType=UserControl}}"
                          BorderThickness="0"

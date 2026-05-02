@@ -20,7 +20,7 @@ namespace AutoCompleteBox
 
             Loaded += CustomCombo_Loaded;
         }
-
+        //new2 pull request
         private void CustomCombo_Loaded(object sender, RoutedEventArgs e)
         {
             if (Config?.AutoOpen == true)
